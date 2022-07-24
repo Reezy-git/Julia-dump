@@ -5,34 +5,7 @@ begin  # imports
     using ParameterizedFunctions
 end
 
-begin
-    # defining the `Lotka-Volterra` equations using ParameterizedFunctions
-    # I use the emojis for the sake of demonstrating a cute Julia feature
-    LV = @ode_def begin
-        d🐰 = α * 🐰 - β * 🐰 * 🦊
-        d🦊 = -γ * 🦊 + δ * 🐰 * 🦊
-    end α β γ δ
-
-    # Set up our initial values and parameters
-    u0 = [1.0, 1.0]
-    parameters = (1.5, 1.0, 3.0, 1.0)  # α β γ δ
-    tspan = (0.0, 10.0)
-    prob = ODEProblem(LV, u0, tspan, parameters)
-    sol = solve(prob)
-
-    # Plotting our solution
-    pop_v_time = Plots.plot(
-        sol,
-        xaxis = "t",
-        yaxis = "Population",
-        label = ["Rabbits" "Foxes"],
-    )
-    display(pop_v_time)
-    save("foxes_vs_rabbits_vs_time.png", pop_v_time)
-end
-
-
-# Phase portrait of above ODE
+# Phase portrait of L-V equations
 begin
     α, β, γ, δ = 1.5, 1.0, 3.0, 1.0  # defining our parameters
     x_dot(R, F) = Point2(α * R - β * R * F, -γ * F + δ * R * F)  #ode definition
